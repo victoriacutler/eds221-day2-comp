@@ -1,3 +1,4 @@
 # eds221-day2-comp
 
-Exploring data types etc.
+- Creating data structures
+- Exploring data types etc.

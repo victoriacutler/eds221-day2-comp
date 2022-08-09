@@ -7,3 +7,174 @@ execute:
   message: false
   warning: false
 ---
+
+```{r}
+library(tidyverse)
+```
+
+### Vectors
+
+```{r}
+# create a vector
+dogs <- c("teddy", "khora", "waffle", "banjo", "tally")
+
+# check the class
+class(dogs)
+```
+
+```{r}
+# this will become a vector with class character
+cats <- c("creamsicle wolf", 14.2, 3L)
+```
+
+```{r}
+# to see data type (not class)
+years <- c(20, 40, 16, 2)
+class(years) # numeric not integer because there is no L
+typeof(years) # double so 64-bit, probably won't use this
+years <- as.integer(years)
+class(years)
+years <- as.numeric(years)
+class(years)
+```
+
+```{r}
+# if we want to do a conditional check
+# is. <<< asks questions "is this THIS?"
+# as. <<< gives a command "make this THIS"
+
+is.numeric(years) # is years numeric? returns TRUE
+is.character(years)
+```
+
+```{r}
+dog_food <- c(teddy = "purina", khora = "alpo", waffle = "fancy feast") # still a 1d vector but giving a name to all these elements. would probably just make this a dataframe, but you'll sometimes see this. like giving values at the same time in creating a vector but only within that vector
+
+dog_food
+
+dog_food[2] # gives khora and alpo
+
+dog_food["khora"]
+```
+
+```{r}
+cars <- c("blue", "orange", "white")
+cars[1]
+
+i <- 3
+cars[i]
+
+i <- seq(1,2)
+cars[i]
+```
+
+```{r}
+cars[3] <- "yellow" # in python we can't change the value in a vector (at least like this?)
+cars
+```
+
+### Matrices
+
+```{r}
+fish_size <- matrix(c(12, 14, 18, 20), ncol = 2, nrow = 2, byrow = FALSE)
+fish_size
+class(fish_size)
+
+# Example indexing
+fish_size[1,1]
+fish_size[2,1] # row column
+
+typeof(fish_size) # will show us the class of the values within the matrix (which has to be all the same class, unlike a dataframe)
+
+# what happens if we create a matrix with different types of data?
+fish_type <- matrix(c(12, "trout", 18, 13L), ncol = 2, nrow = 2, byrow = FALSE)
+class(fish_type)
+typeof(fish_type)
+fish_type
+
+fish_type[2,]
+```
+
+### Lists
+
+Reminder: A list combines vectors that can be of different length and type
+
+```{r}
+urchins <- list("blue", c(1,2,3), c("a cat", "a dog"), 5L) ##this list has 4 vectors
+urchins
+
+urchins[3] # this returns a list of the third list
+urchins[[3]] # this returns just the vector of the third list in that list
+```
+
+### Make a named list
+
+```{r}
+tacos <- list(topping = c("onion", "cilantro", "guacamole"),
+              filling = c("beans", "meat", "veggies"),
+              price = c(6.75, 8.25, 9.50))
+
+tacos
+
+# Index list elements by name
+tacos$filling[2]
+tacos[[2]][2] # does the same thing
+
+
+```
+
+```{r}
+a <- c(1, 2, 3)
+b <- c(3, 4, 5)
+
+# let's run a t-test to see if these samples are drawn from populations with different means
+
+my_ttest <- t.test(a,b)
+my_ttest # p is 0.07 which is > 0.05 so we would say there is no significant difference enough for us to reject the null hypothesis that these come from different means
+class(my_ttest)
+my_ttest$p.value
+```
+
+Just writing "The price of a veggie burrito with guacamole is \$9.50" is not reproducible, but we can:
+
+```{r}
+my_list <- list(cats = c(1, 2, 3), dogs = c(10, 11, 12))
+```
+
+The second value of dogs is `q my_list$dogs[2]`,
+
+### Data Frames
+
+```{r}
+topping <- c("onion", "cilantro", "guacamole")
+filling <- c("beans", "meat", "veggies")
+price <- c(6.75, 8.25, 9.50)
+
+df_ex_1 <- data.frame(topping, filling, price)
+df_ex_1 # essentially just took 3 lists and made 3 columns
+class(df_ex_1)
+typeof(df_ex_1$price)
+
+df_ex_1.5 <- rbind(topping, filling, price)
+df_ex_1.5
+class(df_ex_1.5[3])
+
+df_ex_2 <- data.frame(topping = c("sour cream", "salsa", "cheese"),
+                      filling = c("chicken", "cheese", "cabbage"),
+                      price = c(12.50, 13.75, 15.00))
+df_ex_2
+
+# tibble function (we use the tribble):
+df_ex_3 <- tribble(
+  ~topping, ~filling, ~price,
+  "avocado", "steak", 13.25,
+  "radish", "fish", 10.40,
+  "salsa", "veggies", 9.75
+) # allows you to write it how you expect to see it
+df_ex_3
+class(df_ex_3)
+
+df_ex_3$price[3]
+```
+
+### 
